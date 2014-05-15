@@ -78,7 +78,3 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-production:
-  <<: *default
-  database: music_jook_box_production
-  password: <%= ENV['MUSIC_JOOK_BOX_DATABASE_PASSWORD'] %>
