@@ -8,7 +8,13 @@ gem 'spring', :group => :development
 
 gem 'pg'
 
-
+group :development, :test do
+	gem 'rspec-rails'
+	gem 'guard-rspec'
+	gem 'factory_girl_rails', "~> 4.0"
+	gem 'database_cleaner' #for factroy girl
+	gem 'ffaker', '~> 1.23.0'
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
