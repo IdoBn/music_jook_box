@@ -14,6 +14,7 @@ group :development, :test do
 	gem 'factory_girl_rails', "~> 4.0"
 	gem 'database_cleaner' #for factroy girl
 	gem 'ffaker', '~> 1.23.0'
+	gem 'shoulda-matchers'
 end
 
 # To use ActiveModel has_secure_password
