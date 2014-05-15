@@ -81,5 +81,4 @@ test:
 production:
   <<: *default
   database: music_jook_box_production
-  username: music_jook_box
   password: <%= ENV['MUSIC_JOOK_BOX_DATABASE_PASSWORD'] %>

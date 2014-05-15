@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby "2.1.1"
+
 gem 'rails', '4.1.0'
 
 gem 'rails-api'
@@ -21,6 +23,8 @@ group :development, :test do
 	gem 'ffaker', '~> 1.23.0'
 	gem 'shoulda-matchers'
 end
+
+gem 'rails_12factor', group: :production
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
