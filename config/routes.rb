@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :parties, only: [:show, :index] do
     get 'search', :to => 'parties#search'
   end
+
+  root 'parties#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
