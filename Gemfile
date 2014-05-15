@@ -8,6 +8,8 @@ gem 'spring', :group => :development
 
 gem 'pg'
 
+gem 'youtube_it'
+
 group :development, :test do
 	gem 'rspec-rails'
 	gem 'guard-rspec'
