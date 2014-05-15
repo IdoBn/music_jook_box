@@ -6,5 +6,6 @@ FactoryGirl.define do
     played false
     thumbnail "MyString"
     url "MyString"
+    party_id 1
   end
 end

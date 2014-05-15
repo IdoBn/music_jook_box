@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :requests, only: [:destroy, :create] do
+    match 'played', to: 'requests#played', via: [:patch, :put]
+  end
+
   resources :parties, only: [:show, :index] do
     get 'search', :to => 'parties#search'
   end
