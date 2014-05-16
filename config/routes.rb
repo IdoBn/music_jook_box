@@ -2,13 +2,11 @@ Rails.application.routes.draw do
   match 'sessions', to: 'sessions#create', via: [:post]
   match 'sessions', to: 'sessions#destroy', via: [:delete]
 
-  resources :requests, only: [:destroy, :create] do
-    match 'played', to: 'requests#played', via: [:patch, :put]
-  end
+  resources :requests, only: [:destroy, :create]
+  match 'requests/:id/played', to: 'requests#played', via: [:patch, :put]
 
-  resources :parties, only: [:show, :index] do
-    get 'search', :to => 'parties#search'
-  end
+  resources :parties, only: [:show, :index] 
+  get 'parties/:id/search', :to => 'parties#search'
 
   root 'parties#index'
   # The priority is based upon order of creation: first created -> highest priority.

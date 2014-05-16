@@ -23,7 +23,7 @@ describe PartiesController do
 				.videos_by(:query => 'cats', :per_page => 20 )
 		end
 
-		before(:each) { get :search, party_id: party.id ,songpull: 'cats' }
+		before(:each) { get :search, id: party.id ,songpull: 'cats' }
 		it { response.should be_success }
   	it { expect(assigns(:videos)).to be_an_instance_of(YouTubeIt::Response::VideoSearch) }
 

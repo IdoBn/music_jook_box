@@ -14,6 +14,10 @@ class User < ActiveRecord::Base
 	  end
 	end
 
+	def owns?(obj)
+		obj.user == self
+	end
+
 	def thumbnail
 		"http://graph.facebook.com/#{self.uid}/picture"
 	end

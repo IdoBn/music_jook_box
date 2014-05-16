@@ -24,7 +24,7 @@ class RequestsController < ApplicationController
   end
 
   def played
-    @request = Request.find(params[:request_id])
+    @request = Request.find(params[:id])
     @request.played!
     render json: @request
   end
@@ -32,5 +32,11 @@ class RequestsController < ApplicationController
   private
     def request_params
       params.require(:request).permit(:title, :author, :url, :party_id, :thumbnail)
+    end
+
+    def authorize_user!
+      if current_user
+        return current_user.owns?()
+      end
     end
 end

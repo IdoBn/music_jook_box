@@ -36,13 +36,13 @@ describe RequestsController do
     before(:each) { request }
 
     it "returns http success" do
-      patch :played, request_id: request.id
+      patch :played, id: request.id
       response.should be_success
     end
 
     it "returns http success" do
       expect {
-        patch :played, request_id: request.id
+        patch :played, id: request.id
       }.to change { Request.count }.by(-1)
     end
   end
