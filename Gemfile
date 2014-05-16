@@ -15,6 +15,8 @@ gem 'pg'
 
 gem 'youtube_it'
 
+gem "koala", "~> 1.8.0rc1"
+
 group :development, :test do
 	gem 'rspec-rails'
 	gem 'guard-rspec'

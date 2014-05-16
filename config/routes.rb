@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  match 'sessions', to: 'sessions#create', via: [:post]
+  match 'sessions', to: 'sessions#destroy', via: [:delete]
+
   resources :requests, only: [:destroy, :create] do
     match 'played', to: 'requests#played', via: [:patch, :put]
   end

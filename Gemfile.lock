@@ -68,6 +68,10 @@ GEM
     json (1.8.1)
     jwt (0.1.13)
       multi_json (>= 1.5)
+    koala (1.8.0)
+      addressable
+      faraday
+      multi_json
     listen (2.7.0)
       celluloid (>= 0.15.2)
       celluloid-io (>= 0.15.0)
@@ -192,6 +196,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   ffaker (~> 1.23.0)
   guard-rspec
+  koala (~> 1.8.0rc1)
   pg
   rack-cors
   rails (= 4.1.0)
