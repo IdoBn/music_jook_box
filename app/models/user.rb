@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
 	def self.omniauth(auth)
 		profile = User.auth(auth[:access_token])
-		where(uid: profile[:id]).first_or_initialize.tap do |user|
+		where(uid: profile['id']).first_or_initialize.tap do |user|
 	    user.oauth_token = auth[:access_token]
 	    user.oauth_expires_at = Time.at(auth[:expires_in].to_i)
 	    user.uid = profile["id"]
