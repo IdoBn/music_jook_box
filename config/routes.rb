@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :requests, only: [:destroy, :create]
   match 'requests/:id/played', to: 'requests#played', via: [:patch, :put]
 
-  resources :parties, only: [:show, :index] 
+  resources :parties, only: [:show, :index, :create] 
   get 'parties/:id/search', :to => 'parties#search'
 
   root 'parties#index'
