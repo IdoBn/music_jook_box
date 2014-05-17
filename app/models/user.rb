@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	before_create :generate_access_token
+
 	has_many :requests
 	has_many :parties
 
@@ -26,11 +28,10 @@ class User < ActiveRecord::Base
 		Koala::Facebook::API.new(auth_token).get_object("me")
 	end
 
-	def facebook
-	  @facebook ||= Koala::Facebook::API.new(oauth_token)
-	  block_given? ? yield(@facebook) : @facebook
-	rescue Koala::Facebook::APIError => e
-	  logger.info e.to_s
-	  nil # or consider a custom null object
+private
+	def generate_access_token
+		begin
+    	self.access_token = SecureRandom.hex
+  	end while self.class.exists?(access_token: access_token)
 	end
 end

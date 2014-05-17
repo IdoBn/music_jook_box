@@ -1,32 +1,32 @@
 class RequestsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :load_request, only: [:played, :destroy]
+
   def destroy
-    @request = Request.find(params[:id])
-    if @request.destroy
-      render json: @request
-    else
-      render json: { errors: @request.errors.full_messages }
+    if current_user.owns?(@request) || current_user.owns?(@request.party)
+      if @request.destroy
+        render json: @requests
+      else
+        render json: { errors: @requests.errors.full_messages }
+      end
     end
   end
 
   def create
-    # if current_user
-    #   @request = current_user.requests.new(request_params)
-    # else
-    #   @request = Request.new(request_params)
-    # end
-    @request = Request.new(request_params)
+    @request = current_user.requests.new(request_params)
 
     if @request.save
-      render json: @request
+      render json: @requests
     else
       render json: { errors: @request.errors.full_messages }
     end
   end
 
   def played
-    @request = Request.find(params[:id])
-    @request.played!
-    render json: @request
+    if current_user.owns?(@request.party)
+      @request.played!
+      render json: @requests
+    end
   end
 
   private
@@ -34,9 +34,7 @@ class RequestsController < ApplicationController
       params.require(:request).permit(:title, :author, :url, :party_id, :thumbnail)
     end
 
-    def authorize_user!
-      if current_user
-        return current_user.owns?()
-      end
+    def load_request
+      @request = Request.find(params[:id])
     end
 end
