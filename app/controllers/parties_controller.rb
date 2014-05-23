@@ -1,5 +1,5 @@
 class PartiesController < ApplicationController
-	before_action :authenticate_user!, only: [:create]
+	before_action :authenticate_user!, only: [:create, :destroy]
 
 	def index
 		@parties = Party.all
@@ -21,6 +21,16 @@ class PartiesController < ApplicationController
 		@party = current_user.parties.new(party_params)
 
 		if @party.save
+			render json: @party
+		else
+			render json: { errors: @party.errors.full_messages }
+		end
+	end
+
+	def destroy
+		@party = Party.find(params[:id])
+
+		if @party.destroy && current_user.owns?(@party)
 			render json: @party
 		else
 			render json: { errors: @party.errors.full_messages }
