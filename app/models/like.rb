@@ -5,6 +5,8 @@ class Like < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :request
 
+	validates :user_id, :uniqueness => { :scope => :request_id }
+
 	def position_up
 		unless self.request.party.requests.first == self.request || self.request.party.requests.second == self.request
 			requests = self.request.party.requests.not_played

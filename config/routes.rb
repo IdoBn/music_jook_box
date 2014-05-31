@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   resources :requests, only: [:destroy, :create]
   match 'requests/:id/played', to: 'requests#played', via: [:patch, :put]
+  match 'requests/:id/like', to: 'requests#like', via: :post
+  match 'requests/:id/unlike', to: 'requests#unlike', via: :delete
 
   resources :parties, only: [:show, :index, :create, :destroy] 
   get 'parties/:id/search', :to => 'parties#search'

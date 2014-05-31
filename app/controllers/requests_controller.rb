@@ -1,6 +1,6 @@
 class RequestsController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_request, only: [:played, :destroy]
+  before_action :load_request, only: [:played, :destroy, :like, :unlike]
 
   def destroy
     if current_user.owns?(@request) || current_user.owns?(@request.party)
@@ -26,6 +26,22 @@ class RequestsController < ApplicationController
     if current_user.owns?(@request.party)
       @request.played!
       render json: @requests
+    end
+  end
+
+  def like
+    current_user.likes.create(request: @request)
+    render json: @request
+  end
+
+  def unlike
+    @like = @request.likes.where(user_id: current_user.id).first
+    if current_user.owns?(@like)
+      if @like.destroy
+        render json: @request
+      else
+        render json: { errors: @like.errors.full_messages } 
+      end
     end
   end
 
