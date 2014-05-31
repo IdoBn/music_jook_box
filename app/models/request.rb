@@ -1,4 +1,6 @@
 class Request < ActiveRecord::Base
+	after_create :set_position
+
 	belongs_to :user
 	belongs_to :party
 	has_many :likes
@@ -12,5 +14,13 @@ class Request < ActiveRecord::Base
 
   def played!
   	self.update_attribute(:played, true) unless played?
+  end
+
+  def set_position
+  	begin
+  		self.position = self.party.last.position + 1
+  	rescue
+  		self.position = 1
+  	end
   end
 end
