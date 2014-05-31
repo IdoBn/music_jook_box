@@ -6,7 +6,7 @@ class Request < ActiveRecord::Base
 	has_many :likes
 
 	default_scope { not_played }
-	scope :not_played, -> { where(played: false) }
+	scope :not_played, -> { where(played: false).order(:position) }
 
 	def played?
   	self.played ? true : false
