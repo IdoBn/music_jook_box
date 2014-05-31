@@ -5,7 +5,7 @@ class RequestsController < ApplicationController
   def destroy
     if current_user.owns?(@request) || current_user.owns?(@request.party)
       if @request.destroy
-        render json: @requests
+        render json: @request
       else
         render json: { errors: @requests.errors.full_messages }
       end
