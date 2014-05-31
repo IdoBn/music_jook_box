@@ -1,5 +1,5 @@
 class Request < ActiveRecord::Base
-	after_create :set_position
+	before_create :set_position
 
 	belongs_to :user
 	belongs_to :party
@@ -18,7 +18,7 @@ class Request < ActiveRecord::Base
 
   def set_position
   	begin
-  		self.position = self.party.last.position + 1
+  		self.position = self.party.requests.last.position + 1
   	rescue
   		self.position = 1
   	end
