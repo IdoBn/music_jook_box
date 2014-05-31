@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Request do
   it { should belong_to(:user) }
   it { should belong_to(:party) }
+  it { should have_many(:likes) }
 
   it 'should have a default scope' do
   	request = FactoryGirl.create(:request)
