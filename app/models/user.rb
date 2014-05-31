@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 
 	has_many :requests
 	has_many :parties
+	has_many :likes
 
 	def self.omniauth(auth)
 		profile = User.auth(auth[:access_token])
