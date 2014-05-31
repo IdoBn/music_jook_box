@@ -11,9 +11,8 @@ class Like < ActiveRecord::Base
 			req1_index = requests.index(self.request)
 			req2_index = req1_index - 1
 			temp_position = requests[req1_index].position
-			self.request.position = requests[req2_index].position
-			requests[req2_index].position = temp_position
-			requests[req2_index].save
+			self.request.update_attribute(:position, requests[req2_index].position)
+			requests[req2_index].update_attribute(:position, temp_position)
 		end
 	end
 
@@ -23,9 +22,8 @@ class Like < ActiveRecord::Base
 			req1_index = requests.index(self.request)
 			req2_index = req1_index + 1
 			temp_position = requests[req1_index].position
-			self.request.position = requests[req2_index].position
-			requests[req2_index].position = temp_position
-			requests[req2_index].save
+			self.request.update_attribute(:position, requests[req2_index].position)
+			requests[req2_index].update_attribute(:position, temp_position)
 		end
 	end
 end
