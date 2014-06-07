@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   resources :parties, only: [:show, :index, :create, :destroy] 
   get 'parties/:id/search', :to => 'parties#search'
 
+  resources :users, only: [:show]
+
   root 'parties#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
