@@ -10,17 +10,54 @@ describe RequestsController do
   end
 
   describe "Delete 'destroy'" do
-    it "returns http success" do
-      request = User.first.requests.create(FactoryGirl.attributes_for(:request))
-      delete :destroy, id: request.id
-      response.should be_success
+    context 'owns request' do
+      before(:each) { @myRequest = User.first.requests.create(FactoryGirl.attributes_for(:request)) }
+
+      it "returns http success" do
+        delete :destroy, id: @myRequest.id
+        response.should be_success
+      end
+
+      it "removes record" do
+        expect {
+          delete :destroy, id: @myRequest.id
+        }.to change{ Request.count }.by(-1)
+      end
     end
 
-    it "removes record" do
-      request = User.first.requests.create(FactoryGirl.attributes_for(:request))
-      expect {
-        delete :destroy, id: request.id
-      }.to change{ Request.count }.by(-1)
+    context 'owns party' do
+      before :each do
+        @user = FactoryGirl.create(:user)
+        @party = @user.parties.create(FactoryGirl.attributes_for(:party))
+        @myRequest = User.first.requests.create(
+          FactoryGirl.attributes_for(:request).merge({party_id: @party.id}))
+      end
+
+      it "returns http success" do
+        delete :destroy, id: @myRequest.id
+        response.should be_success
+      end
+
+      it "removes record" do
+        expect {
+          delete :destroy, id: @myRequest.id
+        }.to change{ Request.count }.by(-1)
+      end
+    end
+
+    context 'does not own request or party' do
+      before :each do
+        @user = FactoryGirl.create(:user)
+        @party = @user.parties.create(FactoryGirl.attributes_for(:party))
+        @myRequest = @user.requests.create(
+          FactoryGirl.attributes_for(:request).merge({party_id: @party.id}))
+      end
+
+      it "removes record" do
+        expect {
+          delete :destroy, id: @myRequest.id
+        }.to_not change{ Request.count }
+      end
     end
   end
 
@@ -35,27 +72,64 @@ describe RequestsController do
           post :create, request: FactoryGirl.attributes_for(:request)
         }.to change { Request.count }.by(1)
       end
-    end 
+    end
+
+    context 'invalid params' do
+      before(:each) { Request.any_instance.stub(:valid?).and_return(false) }
+
+      it 'creates a new request' do
+        expect {
+          post :create, request: FactoryGirl.attributes_for(:request)
+        }.to_not change { Request.count }
+      end
+    end
+
+    context 'user not signed in' do
+      before(:each) { ApplicationController.any_instance.stub(:current_user).and_return(nil) }
+
+      it 'creates a new request' do
+        expect {
+          post :create, request: FactoryGirl.attributes_for(:request)
+        }.to_not change { Request.count }
+      end
+    end
   end
 
   describe "Patch 'played'" do
     before :all do
       @party = User.first.parties.create(FactoryGirl.attributes_for(:party))
+      @myRequest = User.first.requests.create(
+        FactoryGirl.attributes_for(:request).merge({party_id: @party.id}))
     end
 
-    it "returns http success" do
-      myRequest = User.first.requests.create(
-        FactoryGirl.attributes_for(:request).merge({party_id: @party.id}))
-      patch :played, id: myRequest.id
-      response.should be_success
+    context 'owns party' do
+      it "returns http success" do
+        patch :played, id: @myRequest.id
+        response.should be_success
+      end
+
+      it "removes request from list" do
+        expect {
+          patch :played, id: @myRequest.id
+        }.to change { Request.count }.by(-1)
+      end
     end
 
-    it "removes request from list" do
-      myRequest = User.first.requests.create(
-        FactoryGirl.attributes_for(:request).merge({party_id: @party.id}))
-      expect {
-        patch :played, id: myRequest.id
-      }.to change { Request.count }.by(-1)
+    context 'does not own party' do
+      before :each do
+        ApplicationController.any_instance.unstub(:current_user)
+      end
+
+      it 'returns http error' do
+        patch :played, id: @myRequest.id
+        response.should_not be_success
+      end
+
+      it 'does not remove request from list' do
+        expect {
+          patch :played, id: @myRequest.id
+        }.to_not change { Request.count }
+      end
     end
   end
 
