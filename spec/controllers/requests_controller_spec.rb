@@ -46,6 +46,43 @@ describe RequestsController do
     end
   end
 
+  describe 'DELETE #unlike' do
+    before(:each) do
+      @party = User.first.parties.create(FactoryGirl.attributes_for(:party))
+      @my_request = User.first.requests.create(FactoryGirl.attributes_for(:request).merge({party_id: @party.id}))
+    end
+
+    # context 'does not like' do
+    #   # before(:each) { User.first.likes.create(request: @myRequest) }
+    #   it 'should change request likes by 0' do
+    #     expect {
+    #       delete :unlike, id: @my_request.id
+    #     }.to_not change{ @my_request.likes.count }
+    #   end
+    # end
+
+    context 'already likes' do
+      it 'should change request likes by -1' do
+        User.first.likes.create(request: @my_request)
+        expect {
+          delete :unlike, id: @my_request.id
+        }.to change{ @my_request.likes.count }.by(-1)
+      end
+    end
+
+    context 'not signed in' do
+      before :each do
+        ApplicationController.any_instance.unstub(:current_user)
+      end
+
+      it 'should change request likes by 0' do
+        expect {
+          delete :unlike, id: @my_request.id
+        }.to_not change{ @my_request.likes.count }
+      end
+    end
+  end
+
   describe "Delete 'destroy'" do
     context 'owns request' do
       before(:each) { @myRequest = User.first.requests.create(FactoryGirl.attributes_for(:request)) }
