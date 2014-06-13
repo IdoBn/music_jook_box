@@ -61,4 +61,27 @@ describe PartiesController do
 			end
 		end
 	end
+
+	context 'DELETE #destroy' do
+		before(:each){ @party = User.first.parties.create(FactoryGirl.attributes_for(:party)) }
+
+		context 'user signed in' do
+			before(:each) { ApplicationController.any_instance.stub(:current_user).and_return(User.first) }
+
+			it 'it changes current_user.parties.count by -1' do
+				expect {
+					delete :destroy, id: @party.id
+				}.to change{ User.first.parties.count }.by(-1)
+			end
+		end
+
+		context 'user signed in' do
+			it 'it changes current_user.parties.count by -1' do
+				expect {
+					delete :destroy, id: @party.id
+				}.to_not change{ User.first.parties.count }
+			end
+		end
+
+	end
 end
