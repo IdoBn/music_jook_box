@@ -8,16 +8,23 @@ describe Like do
   	before(:each) do
   		@party = FactoryGirl.create(:party)
   		4.times { @party.requests.create(FactoryGirl.attributes_for(:request)) }
+      @like = @party.requests.last.likes.build(user: User.first)
   	end
 
-  	# it 'should recieve position up' do
-  	# 	expect(@party.requests.last.likes.create).to receive(:position_up)
-  	# end
+  	it { expect(@like).to respond_to(:position_up) }
 
-  	# it 'should raise position' do
-  	# 	expect {
-  	# 		@party.requests.last.likes.create
-  	# 	}.to change{ @party.requests.last.position }
-  	# end
+  	it 'should raise position' do
+  		expect {
+  			@like.save
+  		}.to change{ @party.requests.last }
+  	end
+
+    it 'should lower position on delete' do
+      like = @party.requests.last.likes.build(user: User.first)
+      like.save
+      expect {
+        like.destroy
+      }.to change{ @party.requests.last }
+    end
   end
 end
