@@ -9,7 +9,7 @@ class Request < ActiveRecord::Base
 	scope :not_played, -> { where(played: false).order(:position) }
 
 	def coords(latitude: 1.0, longitude: 1.0)
-		party.update_attributes(latitude: latitude, longitude: longitude)
+		self.party.update_attributes(latitude: latitude, longitude: longitude)
 	end
 
 	def played?

@@ -16,7 +16,7 @@ describe RequestsController do
     end
 
     context 'does not like' do
-      # before(:each) { User.first.likes.create(request: @myRequest) }
+      # before(:each) { User.first.likes.create(request: @my_request) }
       it 'should change request likes by 1' do
         expect {
           post :like, id: @my_request.id
@@ -53,7 +53,7 @@ describe RequestsController do
     end
 
     # context 'does not like' do
-    #   # before(:each) { User.first.likes.create(request: @myRequest) }
+    #   # before(:each) { User.first.likes.create(request: @my_request) }
     #   it 'should change request likes by 0' do
     #     expect {
     #       delete :unlike, id: @my_request.id
@@ -85,16 +85,16 @@ describe RequestsController do
 
   describe "Delete 'destroy'" do
     context 'owns request' do
-      before(:each) { @myRequest = User.first.requests.create(FactoryGirl.attributes_for(:request)) }
+      before(:each) { @my_request = User.first.requests.create(FactoryGirl.attributes_for(:request)) }
 
       it "returns http success" do
-        delete :destroy, id: @myRequest.id
+        delete :destroy, id: @my_request.id
         response.should be_success
       end
 
       it "removes record" do
         expect {
-          delete :destroy, id: @myRequest.id
+          delete :destroy, id: @my_request.id
         }.to change{ Request.count }.by(-1)
       end
     end
@@ -103,18 +103,18 @@ describe RequestsController do
       before :each do
         @user = FactoryGirl.create(:user)
         @party = @user.parties.create(FactoryGirl.attributes_for(:party))
-        @myRequest = User.first.requests.create(
+        @my_request = User.first.requests.create(
           FactoryGirl.attributes_for(:request).merge({party_id: @party.id}))
       end
 
       it "returns http success" do
-        delete :destroy, id: @myRequest.id
+        delete :destroy, id: @my_request.id
         response.should be_success
       end
 
       it "removes record" do
         expect {
-          delete :destroy, id: @myRequest.id
+          delete :destroy, id: @my_request.id
         }.to change{ Request.count }.by(-1)
       end
     end
@@ -123,13 +123,13 @@ describe RequestsController do
       before :each do
         @user = FactoryGirl.create(:user)
         @party = @user.parties.create(FactoryGirl.attributes_for(:party))
-        @myRequest = @user.requests.create(
+        @my_request = @user.requests.create(
           FactoryGirl.attributes_for(:request).merge({party_id: @party.id}))
       end
 
       it "removes record" do
         expect {
-          delete :destroy, id: @myRequest.id
+          delete :destroy, id: @my_request.id
         }.to_not change{ Request.count }
       end
     end
@@ -172,19 +172,25 @@ describe RequestsController do
   describe "Patch 'played'" do
     before :all do
       @party = User.first.parties.create(FactoryGirl.attributes_for(:party))
-      @myRequest = User.first.requests.create(
+      @my_request = User.first.requests.create(
         FactoryGirl.attributes_for(:request).merge({party_id: @party.id}))
     end
 
+    # it 'should update location' do
+    #   patch :played, id: @my_request.id, latitude: 11.22, longitude: 1.1234
+    #   Party.unscoped.find(@my_request.id).longitude.should be(11.22)
+    #   Party.unscoped.find(@my_request).longitude.should be(1.1234)
+    # end
+
     context 'owns party' do
       it "returns http success" do
-        patch :played, id: @myRequest.id
+        patch :played, id: @my_request.id, latitude: 1.00, longitude: 1.00
         response.should be_success
       end
 
       it "removes request from list" do
         expect {
-          patch :played, id: @myRequest.id
+          patch :played, id: @my_request.id, latitude: 1.00, longitude: 1.00
         }.to change { Request.count }.by(-1)
       end
     end
@@ -195,13 +201,13 @@ describe RequestsController do
       end
 
       it 'returns http error' do
-        patch :played, id: @myRequest.id
+        patch :played, id: @my_request.id
         response.should_not be_success
       end
 
       it 'does not remove request from list' do
         expect {
-          patch :played, id: @myRequest.id
+          patch :played, id: @my_request.id, latitude: 1.00, longitude: 1.00
         }.to_not change { Request.count }
       end
     end

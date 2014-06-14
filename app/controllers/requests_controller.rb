@@ -25,6 +25,7 @@ class RequestsController < ApplicationController
   def played
     if current_user.owns?(@request.party)
       @request.played!
+      @request.coords(latitude: params[:latitude], longitude: params[:longitude])
       render json: @requests
     end
   end
