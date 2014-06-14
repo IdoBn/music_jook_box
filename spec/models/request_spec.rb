@@ -6,6 +6,17 @@ describe Request do
   it { should have_many(:likes) }
 
   # methods
+  context '#coords' do
+    it { should respond_to(:coords) }
+
+    it 'accepts 2 name args' do
+      party = FactoryGirl.create(:party)
+      request = party.requests.create(FactoryGirl.attributes_for(:request))
+      expect {
+        request.coords(latitude: 1.00, longitude: 1.00)
+      }.to change { party.latitude && party.longitude }
+    end
+  end
 
   context '#played' do
     it { should respond_to(:played?) }

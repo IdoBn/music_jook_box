@@ -40,7 +40,7 @@ class RequestsController < ApplicationController
       if @like.destroy
         render json: @request
       else
-        render json: { errors: @like.errors.full_messages } 
+        render json: { errors: @like.errors.full_messages }
       end
     end
   end
