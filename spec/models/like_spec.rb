@@ -7,7 +7,7 @@ describe Like do
   context 'position' do
   	before(:each) do
   		@party = FactoryGirl.create(:party)
-  		4.times { @party.requests.create(FactoryGirl.attributes_for(:request)) }
+  		6.times { @party.requests.create(FactoryGirl.attributes_for(:request)) }
       @like = @party.requests.last.likes.build(user: User.first)
   	end
 
