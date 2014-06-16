@@ -170,17 +170,17 @@ describe RequestsController do
   end
 
   describe "Patch 'played'" do
-    before :all do
-      @party = User.first.parties.create(FactoryGirl.attributes_for(:party))
+    before :each do
+      @party = User.first.parties.create(FactoryGirl.attributes_for(:party).merge({ latitude: 1.22, longitude: 12.3 }))
       @my_request = User.first.requests.create(
         FactoryGirl.attributes_for(:request).merge({party_id: @party.id}))
     end
 
-    # it 'should update location' do
-    #   patch :played, id: @my_request.id, latitude: 11.22, longitude: 1.1234
-    #   Party.unscoped.find(@my_request.id).longitude.should be(11.22)
-    #   Party.unscoped.find(@my_request).longitude.should be(1.1234)
-    # end
+    it 'should update location' do
+      expect {
+          patch :played, id: @my_request.id, latitude: 11.22, longitude: 1.1234
+      }.to change { @party.latitude && @party.longitude }
+    end
 
     context 'owns party' do
       it "returns http success" do
