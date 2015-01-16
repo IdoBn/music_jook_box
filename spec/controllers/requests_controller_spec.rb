@@ -85,16 +85,18 @@ describe RequestsController do
 
   describe "Delete 'destroy'" do
     context 'owns request' do
-      before(:each) { @myRequest = User.first.requests.create(FactoryGirl.attributes_for(:request)) }
+      # before(:each) { @myRequest = User.first.requests.create(FactoryGirl.attributes_for(:request)) }
+      let(:party) { FactoryGirl.create(:party) }
+      let!(:my_request) { FactoryGirl.create(:request, party_id: party.id, user_id: User.first.id) }
 
       it "returns http success" do
-        delete :destroy, id: @myRequest.id
+        delete :destroy, id: my_request.id
         response.should be_success
       end
 
       it "removes record" do
         expect {
-          delete :destroy, id: @myRequest.id
+          delete :destroy, id: my_request.id
         }.to change{ Request.count }.by(-1)
       end
     end
@@ -137,13 +139,15 @@ describe RequestsController do
 
   describe "Post 'create'" do
     context 'valid params' do
+      let(:party) { FactoryGirl.create(:party) }
+
       it "returns http success" do
-        post :create, request: FactoryGirl.attributes_for(:request)
+        post :create, request: FactoryGirl.attributes_for(:request).merge({party_id: party.id})
         response.should be_success
       end
       it 'creates a new request' do
         expect {
-          post :create, request: FactoryGirl.attributes_for(:request)
+          post :create, request: FactoryGirl.attributes_for(:request).merge({party_id: party.id})
         }.to change { Request.count }.by(1)
       end
     end
