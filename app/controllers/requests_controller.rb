@@ -28,7 +28,7 @@ class RequestsController < ApplicationController
     if current_user.owns?(@request.party)
       @request.played!
       Pusher[@request.party.id.to_s].trigger('request_played', @request.to_json)
-      render json: @requests
+      render json: @request
     end
   end
 
