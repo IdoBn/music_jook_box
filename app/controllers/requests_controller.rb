@@ -18,7 +18,7 @@ class RequestsController < ApplicationController
 
     if @request.save
       Pusher[@request.party.id.to_s].trigger('request_created', @request.to_json)
-      render json: @requests
+      render json: @request
     else
       render json: { errors: @request.errors.full_messages }
     end
