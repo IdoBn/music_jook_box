@@ -31,6 +31,10 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.6)
     arel (5.0.1.20140414130214)
+    autoparse (0.3.3)
+      addressable (>= 2.3.1)
+      extlib (>= 0.9.15)
+      multi_json (>= 1.0.0)
     builder (3.2.2)
     celluloid (0.15.2)
       timers (~> 1.1.0)
@@ -38,12 +42,10 @@ GEM
       celluloid (>= 0.15.0)
       nio4r (>= 0.5.0)
     coderay (1.1.0)
-    crack (0.4.2)
-      safe_yaml (~> 1.0.0)
     database_cleaner (1.2.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
-    excon (0.33.0)
+    extlib (0.9.16)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.4.1)
@@ -54,6 +56,16 @@ GEM
     ffaker (1.23.0)
     ffi (1.9.3)
     formatador (0.2.4)
+    google-api-client (0.8.2)
+      activesupport (>= 3.2)
+      addressable (~> 2.3)
+      autoparse (~> 0.3)
+      extlib (~> 0.9)
+      faraday (~> 0.9)
+      launchy (~> 2.4)
+      multi_json (~> 1.10)
+      retriable (~> 1.4)
+      signet (~> 0.6)
     guard (2.5.1)
       formatador (>= 0.2.4)
       listen (~> 2.6)
@@ -67,12 +79,13 @@ GEM
     httpclient (2.6.0.1)
     i18n (0.6.9)
     json (1.8.1)
-    jwt (0.1.13)
-      multi_json (>= 1.5)
+    jwt (1.4.1)
     koala (1.8.0)
       addressable
       faraday
       multi_json
+    launchy (2.4.3)
+      addressable (~> 2.3)
     listen (2.7.0)
       celluloid (>= 0.15.2)
       celluloid-io (>= 0.15.0)
@@ -86,17 +99,8 @@ GEM
     mime-types (1.25.1)
     minitest (5.3.3)
     multi_json (1.10.0)
-    multi_xml (0.5.5)
     multipart-post (2.0.0)
     nio4r (1.0.0)
-    nokogiri (1.5.11)
-    oauth (0.4.7)
-    oauth2 (0.9.3)
-      faraday (>= 0.8, < 0.10)
-      jwt (~> 0.1.8)
-      multi_json (~> 1.3)
-      multi_xml (~> 0.5)
-      rack (~> 1.2)
     pg (0.17.1)
     polyglot (0.3.4)
     pry (0.9.12.6)
@@ -138,6 +142,7 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.3)
       ffi (>= 0.5.0)
+    retriable (1.4.1)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -154,11 +159,15 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    safe_yaml (1.0.3)
     shoulda-matchers (2.6.1)
       activesupport (>= 3.0.0)
     signature (0.1.7)
-    simple_oauth (0.2.0)
+    signet (0.6.0)
+      addressable (~> 2.3)
+      extlib (~> 0.9)
+      faraday (~> 0.9)
+      jwt (~> 1.0)
+      multi_json (~> 1.10)
     slop (3.4.7)
     spring (1.1.3)
     sprockets (2.12.1)
@@ -177,21 +186,9 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
+    trollop (2.1.2)
     tzinfo (1.1.0)
       thread_safe (~> 0.1)
-    webmock (1.18.0)
-      addressable (>= 2.3.6)
-      crack (>= 0.3.2)
-    youtube_it (2.3.2)
-      builder
-      excon
-      faraday (~> 0.8)
-      json (~> 1.8.0)
-      nokogiri (~> 1.5.2)
-      oauth (~> 0.4.4)
-      oauth2 (~> 0.6)
-      simple_oauth (>= 0.1.5)
-      webmock
 
 PLATFORMS
   ruby
@@ -201,6 +198,7 @@ DEPENDENCIES
   database_cleaner
   factory_girl_rails (~> 4.0)
   ffaker (~> 1.23.0)
+  google-api-client
   guard-rspec
   koala (~> 1.8.0rc1)
   pg
@@ -212,4 +210,4 @@ DEPENDENCIES
   rspec-rails
   shoulda-matchers
   spring
-  youtube_it
+  trollop

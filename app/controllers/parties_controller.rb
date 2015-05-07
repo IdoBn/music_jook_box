@@ -12,9 +12,10 @@ class PartiesController < ApplicationController
 	end
 
 	def search
-		client = YouTubeIt::Client.new(:dev_key => Rails.application.secrets.youtube_dev_key)
-		@videos = client.videos_by(:query => params[:songpull], :per_page => 20 )
-		render json: @videos
+		# client = YouTubeIt::Client.new(:dev_key => Rails.application.secrets.youtube_dev_key)
+		# @videos = client.videos_by(:query => params[:songpull], :per_page => 20 )
+		@videos = $youtube.search(params[:songpull])
+		render json: @videos.to_json
 	end
 
 	def create

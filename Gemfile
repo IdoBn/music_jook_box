@@ -15,7 +15,8 @@ gem 'pg'
 
 gem 'pusher'
 
-gem 'youtube_it'
+gem 'google-api-client'
+gem 'trollop'
 
 gem "koala", "~> 1.8.0rc1"
 
