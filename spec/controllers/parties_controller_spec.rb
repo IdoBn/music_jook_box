@@ -19,13 +19,13 @@ describe PartiesController do
 	context 'GET #search' do
 		let(:party) { FactoryGirl.create(:party) }
 		before(:all) do
-			@videos = YouTubeIt::Client.new(:dev_key => Rails.application.secrets.youtube_dev_key)
-				.videos_by(:query => 'cats', :per_page => 20 )
+			@videos = YouTube.new(Rails.application.secrets.youtube_dev_key, 'music', 25)
+								.search('music')
 		end
 
 		before(:each) { get :search, id: party.id ,songpull: 'cats' }
 		it { response.should be_success }
-  	it { expect(assigns(:videos)).to be_an_instance_of(YouTubeIt::Response::VideoSearch) }
+  	it { expect(assigns(:videos)).to be_an_instance_of(Google::APIClient::Schema::Youtube::V3::SearchListResponse) }
 	end
 
 	context 'POST #create' do

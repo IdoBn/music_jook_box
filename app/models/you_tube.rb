@@ -1,10 +1,14 @@
-class Youtube
+class YouTube
 	@@YOUTUBE_API_SERVICE_NAME = "youtube"
 	@@YOUTUBE_API_VERSION = "v3"
 
 	def initialize(key, default_search, default_per_page)
+		@key = key
+
 		@client = Google::APIClient.new(:key => key,
-                               :authorization => nil)
+                               			:authorization => nil, 
+                               			:application_name => "music",
+                               			:application_version => 1.0)
 
 		@youtube = @client.discovered_api(@@YOUTUBE_API_SERVICE_NAME, @@YOUTUBE_API_VERSION)
 
