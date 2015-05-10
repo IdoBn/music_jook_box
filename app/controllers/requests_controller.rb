@@ -5,7 +5,7 @@ class RequestsController < ApplicationController
   def destroy
     if current_user.owns?(@request) || current_user.owns?(@request.party)
       if @request.destroy
-        Pusher[@request.party.id.to_s].trigger('request_destroyed', @request.to_json)
+        Pusher[@request.party.id.to_s].trigger('request_destroyed', RequestSerializer.new(@request).to_json)
         render json: @request
       else
         render json: { errors: @requests.errors.full_messages }
@@ -17,7 +17,7 @@ class RequestsController < ApplicationController
     @request = current_user.requests.new(request_params)
 
     if @request.save
-      Pusher[@request.party.id.to_s].trigger('request_created', @request.to_json)
+      Pusher[@request.party.id.to_s].trigger('request_created', RequestSerializer.new(@request).to_json)
       render json: @request
     else
       render json: { errors: @request.errors.full_messages }
@@ -27,14 +27,14 @@ class RequestsController < ApplicationController
   def played
     if current_user.owns?(@request.party)
       @request.played!
-      Pusher[@request.party.id.to_s].trigger('request_played', @request.to_json)
+      Pusher[@request.party.id.to_s].trigger('request_played', RequestSerializer.new(@request).to_json)
       render json: @request
     end
   end
 
   def like
     current_user.likes.create(request: @request)
-    Pusher[@request.party.id.to_s].trigger('request_liked', @request.to_json)
+    Pusher[@request.party.id.to_s].trigger('request_liked', RequestSerializer.new(@request).to_json)
     render json: @request
   end
 
@@ -42,7 +42,7 @@ class RequestsController < ApplicationController
     @like = @request.likes.where(user_id: current_user.id).first
     if current_user.owns?(@like)
       if @like.destroy
-        Pusher[@request.party.id.to_s].trigger('request_unliked', @request.to_json)
+        Pusher[@request.party.id.to_s].trigger('request_unliked', RequestSerializer.new(@request).to_json)
         render json: @request
       else
         render json: { errors: @like.errors.full_messages } 
