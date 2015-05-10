@@ -20,6 +20,8 @@ gem 'trollop'
 
 gem "koala", "~> 1.8.0rc1"
 
+gem 'puma'
+
 group :development, :test do
 	gem 'rspec-rails'
 	gem 'guard-rspec'

@@ -107,6 +107,8 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
+    puma (2.11.2)
+      rack (>= 1.1, < 2.0)
     pusher (0.14.2)
       httpclient (~> 2.4)
       multi_json (~> 1.0)
@@ -202,6 +204,7 @@ DEPENDENCIES
   guard-rspec
   koala (~> 1.8.0rc1)
   pg
+  puma
   pusher
   rack-cors
   rails (= 4.1.0)
